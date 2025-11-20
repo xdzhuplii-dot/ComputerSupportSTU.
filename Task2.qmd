@@ -1,0 +1,68 @@
+---
+title: "Task 2: Subsetting & Missing Data in Your Mini-Universe"
+format: html
+---
+
+```{r}
+# Task 2: Subsetting & Missing Data in the Universe
+
+# Load base data
+sequence_vector <- seq(10, 100, by = 5)
+logical_vector <- sample(c(TRUE, FALSE), 10, replace = TRUE)
+
+df <- data.frame(
+  City = c("Astra", "Vega", "Lunaris", "Eos", "Terralight", "Zenith"),
+  Population_k = c(150, 210, 90, 300, 250, 180),
+  Coastal = c(TRUE, FALSE, TRUE, FALSE, TRUE, FALSE),
+  Stage = c("high", "medium", "low", "high", "medium", "low")
+)
+
+# === 2.1. Querying Vectors ===
+sequence_vector[3]
+sequence_vector[2:5]
+sequence_vector[sequence_vector > 20]
+
+logical_vector[logical_vector]
+which(logical_vector)
+
+# === 2.2. Querying List ===
+planet_list <- list(
+  description = "NovaPrime is a habitable planet in the Andromeda Sector.",
+  matrix = matrix(sample(-50:50, 9), 3, 3),
+  vector = sequence_vector
+)
+
+planet_list$description
+planet_list[[2]]
+planet_list$vector[2]
+
+# === 2.3. Data Frame Operations ===
+head(df, 3)
+df[4, 1]
+df$Coastal
+
+# Logical subsetting
+df_subset <- df[df$Population_k > 150, ]
+df_subset
+
+# Subsetting with %in%
+df_subset_2 <- df[df$Stage %in% c("high", "medium"), ]
+df_subset_2
+
+# === 2.4. Handling Missing Data ===
+df_corrupted <- df
+df_corrupted[2, 3] <- NA
+df_corrupted[5, 2] <- NA
+df_corrupted[6, 4] <- NA
+
+sum(is.na(df_corrupted))
+colSums(is.na(df_corrupted))
+
+mean(df_corrupted$Population_k, na.rm = TRUE)
+df_clean <- na.omit(df_corrupted)
+df_clean
+
+# === 2.5. Bonus Challenge ===
+highest_pop_index <- which.max(df$Population_k)
+df[highest_pop_index, ]
+```
