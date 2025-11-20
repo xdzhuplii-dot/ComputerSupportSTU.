@@ -1,0 +1,98 @@
+---
+title: "Task 1: Exploring Data Types in R"
+format: html
+---
+
+```{r}
+# Task 1: Exploring Data Types in R
+# Theme: Planet NovaPrime
+
+# === 1.1. Atomic Types ===
+# Creating variables describing the planet
+
+population <- 987654.3
+temperature <- 27.5
+area <- 54000.2
+rating <- 8.7
+
+num_moons <- 2L
+num_cities <- 12L
+num_species <- 350L
+
+has_water <- TRUE
+is_inhabited <- TRUE
+
+name <- "NovaPrime"
+region <- "Andromeda Sector"
+category <- "Habitable Planet"
+
+cat("Planet", name, "is located in", region, 
+    "with population", population, 
+    "and average temperature", temperature, "°C.\n")
+
+# === 1.2. Vectors ===
+# Creating numeric, sequence and logical vectors
+
+numeric_vector <- c(population, temperature, area, rating, num_moons, num_cities, num_species)
+sequence_vector <- seq(10, 100, by = 5)
+logical_vector <- sample(c(TRUE, FALSE), 10, replace = TRUE)
+
+numeric_vector
+sequence_vector
+logical_vector
+
+# === 1.3. Matrix ===
+# Matrix of 3x3 with random numbers
+
+matrix_data <- matrix(sample(-50:50, 9), nrow = 3, ncol = 3)
+rownames(matrix_data) <- c("NorthZone", "CentralZone", "SouthZone")
+colnames(matrix_data) <- c("Temperature", "Humidity", "Radiation")
+
+matrix_data
+rowMeans(matrix_data)
+colMeans(matrix_data)
+
+# === 1.4. List ===
+# Combining all objects into one list
+
+planet_list <- list(
+  attributes = list(population, temperature, area, rating, num_moons, num_cities, num_species,
+                    has_water, is_inhabited, name, region, category),
+  numeric_vector = numeric_vector,
+  sequence_vector = sequence_vector,
+  logical_vector = logical_vector,
+  matrix = matrix_data,
+  description = "NovaPrime is a habitable planet in the Andromeda Sector, home to multiple intelligent species."
+)
+
+planet_list$description
+
+# === 1.5. Factor ===
+# Factor variable representing development stage
+
+development_stage <- factor(
+  c("low", "medium", "high", "medium", "high"),
+  levels = c("low", "medium", "high")
+)
+
+table(development_stage)
+
+# === 1.6. Data Frame ===
+# Creating data frame describing several cities
+
+df <- data.frame(
+  city = c("Astra", "Vega", "Lunaris", "Eos", "Terralight", "Zenith"),
+  population_thousands = c(150, 210, 90, 300, 250, 180),
+  is_coastal = c(TRUE, FALSE, TRUE, FALSE, TRUE, FALSE),
+  development_stage = c("high", "medium", "low", "high", "medium", "low")
+)
+
+colnames(df) <- c("City", "Population_k", "Coastal", "Stage")
+
+str(df)
+summary(df)
+
+# Adding new derived column
+df$DensityIndex <- df$Population_k / 10
+df
+```
