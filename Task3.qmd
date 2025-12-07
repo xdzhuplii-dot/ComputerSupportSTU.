@@ -1,0 +1,50 @@
+---
+title: "Task 3: Expanding Your Universe"
+author: "Dzhuplii Danyil"
+format: html
+---
+
+```{r}
+library(dplyr)
+library(readr)
+```
+
+# Task 3 — Real Dataset: Solar System Planets
+
+Dataset source:  
+https://raw.githubusercontent.com/zonination/planets/master/planets.csv
+
+```{r}
+solar <- read_csv("solar_system_planets.csv")
+glimpse(solar)
+head(solar)
+summary(solar)
+```
+
+## Group by planet type
+```{r}
+if("type" %in% colnames(solar)) {
+  planet_groups <- solar %>% 
+    group_by(type) %>% 
+    summarise(
+      avg_mass = mean(mass, na.rm = TRUE),
+      avg_radius = mean(radius, na.rm = TRUE),
+      count = n()
+    )
+  planet_groups
+}
+```
+
+## Terrestrial planets
+```{r}
+terrestrial <- solar %>% filter(type == "Terrestrial")
+terrestrial
+```
+
+## Density index
+```{r}
+solar_with_density <- solar %>% 
+  mutate(density_index = mass / radius)
+
+head(solar_with_density)
+```
