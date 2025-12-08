@@ -1,0 +1,79 @@
+
+---
+title: "Task 5 – Visualising Your Universe"
+format: html
+---
+
+```{r}
+library(ggplot2)
+library(dplyr)
+
+my_data <- read.csv("solar_system_planets.csv")
+```
+
+# 5.1 Base R Histogram
+
+```{r}
+hist(my_data$mass,
+     main = "Distribution of Planet Mass",
+     xlab = "Mass (kg, relative units)",
+     col = "lightblue",
+     border = "white")
+```
+
+# 5.2 ggplot2 Scatter Plot
+
+```{r}
+ggplot(my_data, aes(x = radius, y = gravity)) +
+  geom_point(size = 3, alpha = 0.7) +
+  geom_smooth() +
+  labs(
+    title = "Relationship Between Radius and Gravity",
+    x = "Radius (km)",
+    y = "Gravity (m/s^2)"
+  ) +
+  theme_minimal()
+```
+
+# 5.3 ggplot2 Boxplot
+
+```{r}
+ggplot(my_data, aes(x = type, y = distance_from_sun, fill = type)) +
+  geom_boxplot() +
+  labs(
+    title = "Distance from Sun by Planet Type",
+    x = "Planet Type",
+    y = "Distance from Sun (10^6 km)"
+  ) +
+  theme_light() +
+  theme(legend.position = "none")
+```
+
+# 5.4 Faceted Plot
+
+```{r}
+ggplot(my_data, aes(x = gravity)) +
+  geom_histogram(bins = 10, fill = "coral", color = "black") +
+  facet_wrap(~ type) +
+  labs(
+    title = "Distribution of Gravity Across Planet Types",
+    x = "Gravity (m/s^2)",
+    y = "Count"
+  )
+```
+
+# 5.5 Saving the Plot
+
+```{r}
+p <- ggplot(my_data, aes(x = radius, y = gravity)) +
+  geom_point(size = 3, alpha = 0.7) +
+  geom_smooth() +
+  labs(
+    title = "Relationship Between Radius and Gravity",
+    x = "Radius (km)",
+    y = "Gravity (m/s^2)"
+  ) +
+  theme_minimal()
+
+ggsave("my_universe_plot.png", p, width = 8, height = 6)
+```
