@@ -1,0 +1,75 @@
+
+---
+title: "Task 4 – Functions Toolkit"
+format: html
+---
+
+# 4.1 Greeting Function
+
+```{r}
+welcome_to_my_universe <- function(universe_name) {
+  cat("----------------------------------------\n")
+  cat(" Analysis Toolkit for:", universe_name, "\n")
+  cat(" Prepared by: Даня Джуплій\n")
+  cat("----------------------------------------\n\n")
+}
+
+welcome_to_my_universe("Solar System Dataset")
+```
+
+# 4.2 Loading Function
+
+```{r}
+library(readr)
+library(dplyr)
+
+load_and_inspect <- function(file_path) {
+  data <- read_csv(file_path)
+  cat("--- Data Loaded Successfully ---\n")
+  cat("File:", file_path, "\n\n")
+  cat("---- Glimpse of Data ----\n")
+  print(glimpse(data))
+  cat("\n---- First Rows ----\n")
+  print(head(data))
+  return(data)
+}
+
+my_data <- load_and_inspect("solar_system_planets.csv")
+```
+
+# 4.3 Query Function
+
+```{r}
+filter_planets_by_type <- function(data, planet_type_name) {
+  result <- data |> dplyr::filter(type == planet_type_name)
+  return(result)
+}
+
+gas_giants <- filter_planets_by_type(my_data, "Gas Giant")
+gas_giants
+```
+
+# 4.4 Reporting Function
+
+```{r}
+generate_report <- function(data, planet_name) {
+  planet_data <- data |> dplyr::filter(name == planet_name)
+
+  record_count <- nrow(planet_data)
+  avg_mass <- mean(planet_data$mass, na.rm = TRUE)
+  max_radius <- max(planet_data$radius, na.rm = TRUE)
+  avg_distance <- mean(planet_data$distance_from_sun, na.rm = TRUE)
+  avg_gravity <- mean(planet_data$gravity, na.rm = TRUE)
+
+  cat("--- Report for:", planet_name, "---\n")
+  cat("Records found:", record_count, "\n")
+  cat("Average mass:", round(avg_mass, 2), "\n")
+  cat("Max radius:", max_radius, "\n")
+  cat("Average distance from Sun:", round(avg_distance, 2), "\n")
+  cat("Average gravity:", round(avg_gravity, 2), "\n")
+  cat("----------------------------------\n\n")
+}
+
+generate_report(my_data, "Earth")
+generate_report(my_data, "Jupiter")
+```
